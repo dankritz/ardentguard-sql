@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:latest
+    container_name: ardentguard_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      default:
+        ipv4_address: ${ALLOW_IP}
+    command: ["--bind-address=0.0.0.0"]
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.129.0/24
+
+volumes:
+  db_data:
+
