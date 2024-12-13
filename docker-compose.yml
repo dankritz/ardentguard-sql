@@ -13,8 +13,10 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
+      - ./certs:/certs  # Mount SSL certificates
+      - ./config:/etc/mysql/conf.d  # Custom configuration for SSL
     ports:
-      - "192.168.129.254:3306:3306"
+      - "0.0.0.0:3306:3306"  # Bind to all interfaces
     command:
       - "--bind-address=0.0.0.0"
 
