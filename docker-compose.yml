@@ -13,6 +13,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
+      - ./config/ssl.cnf:/etc/mysql/conf.d/ssl.cnf:ro
     networks:
       - ardentguard_network
 
