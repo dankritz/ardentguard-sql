@@ -23,6 +23,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "3306:3306"
     environment:
     - NGINX_MAP_HASH_BUCKET_SIZE=128
     volumes:
