@@ -1,6 +1,0 @@
-[mysqld]
-# Enable SSL
-ssl-ca=/certs/server-cert.pem
-ssl-cert=/certs/server-cert.pem
-ssl-key=/certs/server-key.pem
-

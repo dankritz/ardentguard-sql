@@ -13,13 +13,35 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
-      - ./certs:/certs  # Mount SSL certificates
-      - ./config:/etc/mysql/conf.d  # Custom configuration for SSL
+    networks:
+      - ardentguard_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
     ports:
-      - "0.0.0.0:3306:3306"  # Bind to all interfaces
-    command:
-      - "--bind-address=0.0.0.0"
+      - "3306:3306"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/letsencrypt/live
+    networks:
+      - ardentguard_network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./certbot-www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 6h & wait $!; certbot renew; done'"
+    networks:
+      - ardentguard_network
 
 volumes:
   db_data:
+  certbot-www:
+
+networks:
+  ardentguard_network:
 
