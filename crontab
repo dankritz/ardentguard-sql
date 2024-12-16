@@ -1,0 +1,2 @@
+0 0 * * * docker run --rm -v /root/ardentguard-sql/letsencrypt:/etc/letsencrypt -p 80:80 certbot/certbot renew --quiet --no-random-sleep-on-renew
+
